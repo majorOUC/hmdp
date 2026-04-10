@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
@@ -25,7 +25,9 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/shop/**",
                         "/shop-type/**",
                         "/upload/**",
-                        "/voucher/**").order(1);
+                        "/voucher/**",
+                        "/chat"  // 添加对话接口到排除列表，方便测试
+                ).order(1);
         registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate))
                 .order(0);
     }

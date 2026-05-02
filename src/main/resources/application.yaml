@@ -5,7 +5,7 @@ spring:
     name: hmdp
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/dianping?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/dianping?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true
     username: root
     password: wmz1005533
   data:
@@ -22,38 +22,24 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
-langchain4j:
-  open-ai:
-    chat-model:
-      base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  ai:
+    openai:
       api-key: sk-cb8e34ac7699424c9bc044efedba3650
-      model-name: qwen-plus
-      log-requests: true
-      log-responses: true
-    streaming-chat-model:
-      base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
-      api-key: sk-cb8e34ac7699424c9bc044efedba3650
-      model-name: qwen-plus
-      log-requests: true
-      log-responses: true
-    embedding-model:
-      base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
-      api-key: sk-cb8e34ac7699424c9bc044efedba3650
-      model-name: text-embedding-v3
-      log-requests: true
-      log-responses: true
-      max-segments-per-batch: 10
-  
-  # Milvus 向量数据库配置
-  milvus:
-    host: localhost
-    port: 19530
-    username: 
-    password: 
-    database: default
-    collection-name: hmdp_knowledge
-    index-type: HNSW
-    metric-type: COSINE
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      chat:
+        options:
+          model: qwen-plus
+      embedding:
+        options:
+          model: text-embedding-v3
+    vectorstore:
+      milvus:
+        uri: http://localhost:19530
+        collection-name: hmdp_knowledge
+        index-type: HNSW
+        metric-type: COSINE
+        embedding-dimension: 1024
+        initialize-schema: false
 
 mybatis-plus:
   type-aliases-package: com.hmdp.entity
@@ -61,10 +47,10 @@ mybatis-plus:
 
 logging:
   level:
-    root: WARN  # 根日志级别为 WARN，只输出警告和错误
-    com.hmdp: INFO  # 应用程序包输出 INFO 级别
-    dev.langchain4j: WARN  # LangChain4j 只输出警告
-    org.springframework.web: INFO  # Spring Web 输出 INFO
-    org.mybatis: WARN  # MyBatis 只输出警告
-    com.mysql: WARN  # MySQL 驱动只输出警告
-    org.redisson: WARN  # Redisson 只输出警告
+    root: WARN
+    com.hmdp: INFO
+    org.springframework.ai: WARN
+    org.springframework.web: INFO
+    org.mybatis: WARN
+    com.mysql: WARN
+    org.redisson: WARN

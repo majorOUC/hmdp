@@ -40,4 +40,12 @@ public class ConsultantVoucherService {
         }
         return voucherMapper.findVoucherByIds(voucherIds);
     }
+
+    public List<Voucher> findVoucherByUserPhone(String phone) {
+        List<Long> voucherIds = voucherOrderMapper.findByPhone(phone);
+        if (voucherIds == null || voucherIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return voucherMapper.findVoucherByIds(voucherIds);
+    }
 }

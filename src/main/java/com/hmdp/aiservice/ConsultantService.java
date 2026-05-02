@@ -1,17 +1,24 @@
 package com.hmdp.aiservice;
 
-import com.hmdp.tools.ReservationTool;
-import com.hmdp.tools.ShopTool;
-import com.hmdp.tools.VoucherTool;
-import dev.langchain4j.service.MemoryId;
-import dev.langchain4j.service.SystemMessage;
-import dev.langchain4j.service.UserMessage;
-import dev.langchain4j.service.spring.AiService;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
-@AiService
-public interface ConsultantService {
-    
-    @SystemMessage(fromResource = "system.txt")
-    Flux<String> chat(@MemoryId String memoryId, @UserMessage String message);
+@Service
+public class ConsultantService {
+
+    private final ChatClient chatClient;
+
+    public ConsultantService(ChatClient chatClient) {
+        this.chatClient = chatClient;
+    }
+
+    public Flux<String> chat(String memoryId, String message) {
+        return chatClient.prompt()
+                .user(message)
+                .advisors(a -> a.param("chat_memory_conversation_id", memoryId))
+                .stream()
+                .content();
+    }
 }

@@ -8,10 +8,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/dianping?useSSL=false&serverTimezone=UTC
     username: root
     password: wmz1005533
-  redis:
-    host: localhost
-    port: 6379
-    password:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
     lettuce:
       pool:
         max-active: 10
@@ -42,6 +43,17 @@ langchain4j:
       log-requests: true
       log-responses: true
       max-segments-per-batch: 10
+  
+  # Milvus 向量数据库配置
+  milvus:
+    host: localhost
+    port: 19530
+    username: 
+    password: 
+    database: default
+    collection-name: hmdp_knowledge
+    index-type: HNSW
+    metric-type: COSINE
 
 mybatis-plus:
   type-aliases-package: com.hmdp.entity
@@ -49,5 +61,10 @@ mybatis-plus:
 
 logging:
   level:
-    com.hmdp: debug
-    dev.langchain4j: debug
+    root: WARN  # 根日志级别为 WARN，只输出警告和错误
+    com.hmdp: INFO  # 应用程序包输出 INFO 级别
+    dev.langchain4j: WARN  # LangChain4j 只输出警告
+    org.springframework.web: INFO  # Spring Web 输出 INFO
+    org.mybatis: WARN  # MyBatis 只输出警告
+    com.mysql: WARN  # MySQL 驱动只输出警告
+    org.redisson: WARN  # Redisson 只输出警告

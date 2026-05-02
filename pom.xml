@@ -158,6 +158,12 @@
             <artifactId>langchain4j-easy-rag</artifactId>
             <version>1.0.0-beta1</version>
         </dependency>
+        <!--milvus 向量数据库依赖-->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-milvus</artifactId>
+            <version>1.0.0-beta1</version>
+        </dependency>
     </dependencies>
 
     <build>
